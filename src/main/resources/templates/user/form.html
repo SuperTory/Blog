@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <script th:replace="common/head::static"></script>
+</head>
+<body>
+<div th:replace="common/head::nav"></div>
+<form class="container" action="/blog/user/save" method="post" th:object="${user}">
+    <input type="hidden" name="id" th:value="*{id}"/>
+    姓名：<input class="form-control" type="text" name="username" th:value="*{username}"/><br>
+    邮箱：<input class="form-control" type="text" name="email" th:value="*{email}"/> <br>
+    密码：<input class="form-control" type="password" name="password" th:value="*{password}"/> <br>
+    <input class="btn btn-primary" type="submit" value="提交">
+</form>
+</body>
+</html>

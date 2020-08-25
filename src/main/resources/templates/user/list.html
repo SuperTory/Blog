@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="用户列表">User</title>
+    <script th:replace="common/head::static"></script>
+</head>
+<body>
+<div th:replace="common/head::nav"></div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Email</td>
+        </tr>
+        </thead>
+        <tbody th:each="user,userStat:${userList}">
+        <tr>
+            <td th:text="${user.id}"></td>
+            <td>
+                <a th:href="@{/user/{userId}(userId=${user.id})}" th:text="${user.username}"></a>
+            </td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" th:href="@{/user/add}">创建用户</a>
+</div>
+</body>
+</html>
