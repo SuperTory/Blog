@@ -34,6 +34,7 @@ public class UserController {
     //新增用户
     @GetMapping("add")
     public ModelAndView add() {
+        Object o = new Object();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", new User());
         modelAndView.addObject("title", "添加用户");
