@@ -30,8 +30,12 @@ dependencies {
 	implementation('net.java.dev.jna:jna:5.6.0')
 
 	//Spring Security
-//	implementation('org.springframework.boot:spring-boot-starter-security')
-//	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE')
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.2.RELEASE')
+
+
+	implementation('org.hibernate.validator:hibernate-validator')
+	implementation('org.apache.commons:commons-lang3')
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

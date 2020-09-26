@@ -18,13 +18,18 @@ public class MainController {
 
     @GetMapping("/login")
     public String login(){
-        return "login";
+        return "user/login";
     }
 
     @GetMapping("/login-error")
     public String loginError(Model model){
         model.addAttribute("loginError",true);
         model.addAttribute("errMsg","登陆失败！");
-        return "login";
+        return "user/login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "user/register";
     }
 }

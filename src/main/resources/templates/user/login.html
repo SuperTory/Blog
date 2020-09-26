@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登陆页面</title>
+    <meta charset="utf-8">
+    <script th:replace="common/head::static"></script>
+</head>
+<body>
+<div th:replace="common/head::nav"></div>
+
+<form class="container" method="post" th:action="@{/login}">
+    <h2>请登录</h2>
+    <p th:if="${loginError}" class="alert alert-danger" th:text="${errMsg}"></p>
+    <label for="account">账号：</label>
+    <input id="account" class="form-control" type="text" name="username" placeholder="请输入用户名"/>
+    <label for="password">密码：</label>
+    <input id="password" class="form-control" type="password" name="password" placeholder="请输入密码"/>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+</form>
+</body>
+</html>
