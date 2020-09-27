@@ -1,6 +1,9 @@
 package com.tory.blog.entity;
 
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotEmpty(message = "姓名不能为空")
     @Size(min=2, max=20)
     @Column(nullable = false, length = 20) // 映射为字段，值不能为空
@@ -72,6 +76,12 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setEncodePassword(String password) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodePasswd = encoder.encode(password);
+        this.password = encodePasswd;
     }
 
     public String getEmail() {
