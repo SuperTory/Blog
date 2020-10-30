@@ -1,16 +1,17 @@
-
 <div class="card-header bg-dark font-white">
 
     <div class="input-group col-md-7 col-xl-6">
-
         <input type="text" class="form-control" id="searchName"
-               placeholder="输入用户名称进行搜索"> <span class="input-group-btn">
+               placeholder="输入用户名称进行搜索">
+        <span class="input-group-btn">
 			<button class="btn btn-secondary" type="button" id="searchNameBtn">
 				<i class="fa fa-search" aria-hidden="true"></i>
 			</button>
-		</span> <a class="btn btn-primary" data-toggle="modal"
-                   data-target="#flipFlop" role="button" id="addUser"><i
-            class="fa fa-plus" aria-hidden="true"></i></a>
+		</span>
+        <a class="btn btn-primary" data-toggle="modal"
+           data-target="#flipFlop" role="button" id="addUser">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
 
     </div>
 </div>
@@ -31,21 +32,22 @@
             </thead>
             <tbody>
 
+            <!--/*@thymesVar id="user" type="com.tory.blog.entity.User"*/-->
             <tr th:each="user : ${userModel.userList}">
                 <td th:text="${user.id}">1</td>
-                <td th:text="${user.username}">1</td>
-                <td th:text="${user.email}">waylau</td>
-<!--                <td th:text="${user.authorities}">waylau</td>-->
+                <td th:text="${user.username}">Super Tory</td>
+                <td th:text="${user.name}">Tory</td>
+                <td th:text="${user.email}">tory@163.com</td>
+                <td th:text="${user.authorities}">管理员</td>
                 <td>
                     <div>
                         <a class="blog-edit-user" data-toggle="modal"
-                           data-target="#flipFlop" role="button"
-                           data-th-attr="userId=${user.id}"> <i
-                                class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </a> <a class="blog-delete-user" role="button"
-                                data-th-attr="userId=${user.id}"> <i class="fa fa-times"
-                                                                     aria-hidden="true"></i>
-                    </a>
+                           data-target="#flipFlop" role="button" data-th-attr="userId=${user.id}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a class="blog-delete-user" role="button" data-th-attr="userId=${user.id}">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -69,7 +71,6 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-
             </div>
             <div class="modal-body" id="userFormContainer"></div>
             <div class="modal-footer">
@@ -81,4 +82,4 @@
 </div>
 
 <!-- JavaScript -->
-<script src="../../js/user/list.js" th:src="@{/js/user/list.js}"></script>
+<script th:src="@{/js/user/list.js}"></script>

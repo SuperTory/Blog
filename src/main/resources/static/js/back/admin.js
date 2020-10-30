@@ -15,8 +15,6 @@ $(function() {
 		$(".blog-menu .list-group-item").removeClass("active");
 		$(this).addClass("active");
 
-		console.log(url);
-
 		// 加载其他模块的页面到右侧工作区
 		 $.ajax({ 
 			 url: url, 

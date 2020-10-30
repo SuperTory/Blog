@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.tory.blog.repository.UserRepo;
+import com.tory.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +17,10 @@ import com.tory.blog.entity.User;
 
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
-	private UserRepo userRepository;
+	private UserRepository userRepository;
 	
 	@Transactional
 	@Override
@@ -63,9 +63,9 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByNameLike(name, pageable);
 	}
 
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		return userRepository.findByUsername(username);
-//	}
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return userRepository.findByUsername(username);
+	}
 
 }

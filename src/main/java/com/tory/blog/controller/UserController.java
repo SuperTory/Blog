@@ -39,11 +39,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private AuthorityService authorityService;
+    @Autowired
+    private AuthorityService authorityService;
 
     /**
-     * 查询所用用户
+     * 查询所有用户
      */
     @GetMapping
     public ModelAndView list(@RequestParam(value = "async", required = false) boolean async,
@@ -64,18 +64,21 @@ public class UserController {
     }
 
 
+    /*
+    新增用户
+     */
     @GetMapping("/add")
     public ModelAndView createForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new User(null, null, null, null));
         return new ModelAndView("user/add", "userModel", model);
     }
 
 
     @PostMapping
-    public ResponseEntity<Response> create(User user, Long authorityId) {
-//        List<Authority> authorities = new ArrayList<>();
-//        authorities.add(authorityService.getAuthorityById(authorityId));
-//        user.setAuthorities(authorities);
+    public ResponseEntity<Response> saveOrUpdateUser(User user, Long authorityId) {
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authorityService.getAuthorityById(authorityId));
+        user.setAuthorities(authorities);
 
         if (user.getId() == null) {
             user.setEncodePassword(user.getPassword()); // 加密密码
@@ -109,6 +112,7 @@ public class UserController {
      */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
+        System.out.println("delete reach");
         try {
             userService.removeUser(id);
         } catch (Exception e) {
@@ -118,6 +122,9 @@ public class UserController {
     }
 
 
+    /*
+    修改用户
+     */
     @GetMapping(value = "edit/{id}")
     public ModelAndView modifyForm(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);

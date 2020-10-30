@@ -35,7 +35,7 @@ dependencies {
 
 
 	implementation('org.hibernate.validator:hibernate-validator')
-	implementation('org.apache.commons:commons-lang3')
+	implementation('org.apache.commons:commons-lang3')		//包含StringUtil
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

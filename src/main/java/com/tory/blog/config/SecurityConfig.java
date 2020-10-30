@@ -1,47 +1,69 @@
 package com.tory.blog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Objects;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) // 启用方法安全设置
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return charSequence.toString();
-            }
 
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return Objects.equals(charSequence.toString(), s);
-            }
-        };
-    }
+    private static final String KEY = "RM_KEY";
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/fonts/**", "/index").permitAll()   //任意放行的请求路径
-                .antMatchers("/user/**").hasRole("ADMIN")       //需要ADMIN角色才能访问的路径
-                .and()
-                .formLogin()    //使用基于Form表单的登陆验证
-                .loginPage("/login").failureUrl("/login-error"); //定义登陆页面与失败页面
-    }
+    @Qualifier("userServiceImpl")
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()   //将认证信息储存在内存中
-                .withUser("user1").password("123456").roles("ADMIN");   //新增用户user1并为其分配角色
+    private PasswordEncoder passwordEncoder;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();   // 使用BCrypt加密
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);   //获取用户认证信息
+        authenticationProvider.setPasswordEncoder(passwordEncoder); // 设置密码加密方式
+        return authenticationProvider;
+    }
+
+    /**
+     * 自定义配置
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**", "/index").permitAll() // 都可以访问
+                .antMatchers("/h2-console/**").permitAll() // 都可以访问
+                .antMatchers("/admins/**").hasRole("ADMIN") // 需要相应的角色才能访问
+                .and()
+                .formLogin()   //基于 Form 表单登录验证
+                .loginPage("/login").failureUrl("/login-error") // 自定义登录界面、登录失败页面
+                .and().rememberMe().key(KEY) // 启用 remember me
+                .and().exceptionHandling().accessDeniedPage("/403");  // 处理异常，拒绝访问就重定向到 403 页面
+        http.csrf().ignoringAntMatchers("/h2-console/**"); // 禁用 H2 控制台的 CSRF 防护
+        http.headers().frameOptions().sameOrigin(); // 允许来自同一来源的H2 控制台的请求
+    }
+
+    /**
+     * 认证信息管理
+     */
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
 }

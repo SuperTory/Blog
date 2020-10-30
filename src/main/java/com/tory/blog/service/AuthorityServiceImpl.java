@@ -14,14 +14,11 @@ import com.tory.blog.repository.AuthorityRepository;
  */
 @Service
 public class AuthorityServiceImpl  implements AuthorityService {
-	
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
 	@Override
 	public Authority getAuthorityById(Long id) {
-//		return authorityRepository.findOne(id);
-		return null;
+		return authorityRepository.getOne(id);
 	}
-
 }

@@ -4,19 +4,15 @@ import com.tory.blog.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     //根据方法名生成查询函数
     User findByUsername(String username);
 
     //使用Distinct
     List<User> findDistinctByUsername(String username);
-
-    //使用OrderBy
-    List<User> findByUsernameOrderByCreateTime(String username);
 
     /**
      * 根据用户名分页查询用户列表

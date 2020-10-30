@@ -9,32 +9,32 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 
 
-@Entity // 实体
+@Entity
 public class Authority implements GrantedAuthority {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id // 主键
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
-	private Long id; // 用户的唯一标识
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false) // 映射为字段，值不能为空
-	private String name;
+    @Column(nullable = false)
+    private String authority;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
-	public String getAuthority() {
-		return name;
-	}
+    @Override
+    public String getAuthority() {
+        return authority;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 }
