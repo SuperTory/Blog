@@ -110,7 +110,7 @@ public class UserController {
      *
      * @param id 用户id
      */
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "{id}")
     public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
         System.out.println("delete reach");
         try {

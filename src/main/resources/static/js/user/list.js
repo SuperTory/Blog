@@ -56,7 +56,6 @@ $(function () {
 
     // 获取编辑用户的界面
     $("#rightContainer").on("click", ".blog-edit-user", function () {
-        console.log("id:" + $(this).attr("userId"));
         $.ajax({
             url: projectName + "/users/edit/" + $(this).attr("userId"),
             success: function (data) {
@@ -94,17 +93,17 @@ $(function () {
     // 删除用户
     $("#mainContainer").on("click", ".blog-delete-user", function () {
         // 获取 CSRF Token
-        const csrfToken = $('meta[name=csrf-token]').attr("content");
+        const csrfToken = $("meta[name='csrf-token']").attr("content");
         const csrfHeader = $("meta[name='_csrf_header']").attr("content");
         console.log(csrfToken);
 
-        const deleteUrl = projectName + "/users/" + $(this).attr("userId")
+        const deleteUrl = projectName + "/users/del/" + $(this).attr("userId")
 
         $.ajax({
             url: deleteUrl,
             type: 'DELETE',
             beforeSend: function (request) {
-                request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+                // request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
             },
             success: function (data) {
                 if (data.success) {

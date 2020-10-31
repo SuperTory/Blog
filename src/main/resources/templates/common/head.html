@@ -14,8 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/blog/css/bootstrap.css"/>
     <link rel="stylesheet" href="/blog/css/font-awesome.min.css"/>
-    <script src="/blog/js/jquery.js"></script>
-    <script src="/blog/js/bootstrap.js"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
     <script th:src="@{/js/toastr.min.js}"></script>
 </head>
 <body>
@@ -58,11 +58,18 @@
                         <span class="badge">3</span>
                     </a>
                 </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}">退出</a>
+                <li>
+                    <div sec:authorize="isAuthenticated()"  class="row" >
+                        <form action="/logout" th:action="@{/logout}" method="post">
+                            <input class="btn btn-outline-success " type="submit" value="退出">
+                        </form>
+                    </div>
                 </li>
-                <li sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}" class="btn ">登录</a>
+                <li>
+                    <div sec:authorize="isAnonymous()">
+                        <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
+                        <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
+                    </div>
                 </li>
             </ul>
         </div>

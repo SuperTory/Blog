@@ -8,15 +8,30 @@
 <body>
 <div th:replace="common/head::nav"></div>
 
-<form class="container" method="post" th:action="@{/login}">
-    <h2>请登录</h2>
-    <p th:if="${loginError}" class="alert alert-danger" th:text="${errMsg}"></p>
-    <label for="account">账号：</label>
-    <input id="account" class="form-control" type="text" name="username" placeholder="请输入用户名"/>
-    <label for="password">密码：</label>
-    <input id="password" class="form-control" type="password" name="password" placeholder="请输入密码"/>
+<div class="container blog-content-container">
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-</form>
+    <form  th:action="@{/login}" method="post">
+        <h2 >请登录</h2>
+
+        <div class="form-group col-md-5">
+            <label for="username" class="col-form-label">账号</label>
+            <input type="text" class="form-control" id="username" name="username" maxlength="50" placeholder="请输入账号">
+
+        </div>
+        <div class="form-group col-md-5">
+            <label for="password" class="col-form-label">密码</label>
+            <input type="password" class="form-control" id="password" name="password" maxlength="30" placeholder="请输入密码" >
+        </div>
+        <div class="form-group col-md-2">
+            <input type="checkbox" name="remember-me"> 记住我
+        </div>
+        <div class="form-group col-md-5">
+            <button type="submit" class="btn btn-primary">登录</button>
+        </div>
+        <div class=" col-md-5" th:if="${loginError}">
+            <p class="blog-label-error" th:text="${errorMsg}"></p>
+        </div>
+    </form>
+</div>
 </body>
 </html>
