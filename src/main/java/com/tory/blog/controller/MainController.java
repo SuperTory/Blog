@@ -53,4 +53,9 @@ public class MainController {
         userService.saveUser(user);
         return "redirect:/login";
     }
+
+    @GetMapping("/test/csrf")
+    public String testCsrf(){
+        return "test/csrf_test";
+    }
 }

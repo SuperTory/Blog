@@ -93,26 +93,22 @@ $(function () {
     // 删除用户
     $("#mainContainer").on("click", ".blog-delete-user", function () {
         // 获取 CSRF Token
-        const csrfToken = $("meta[name='csrf-token']").attr("content");
+        const csrfToken = $("meta[name='_csrf']").attr("content");
         const csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        console.log(csrfToken);
 
-        const deleteUrl = projectName + "/users/del/" + $(this).attr("userId")
+        const deleteUrl = projectName + "/users/" + $(this).attr("userId")
 
         $.ajax({
             url: deleteUrl,
             type: 'DELETE',
             beforeSend: function (request) {
-                // request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+                request.setRequestHeader(csrfHeader, csrfToken); // 在请求头添加CSRF Token
             },
             success: function (data) {
                 if (data.success) {
-                    console.log(deleteUrl);
-                    // 从新刷新主界面
-                    getUersByName(0, _pageSize);
+                    getUersByName(0, _pageSize);    //删除成功刷新主界面
                 } else {
-                    console.log("fail");
-                    toastr.error(data.message);
+                    console.log("del fail");
                 }
             },
             error: function () {
