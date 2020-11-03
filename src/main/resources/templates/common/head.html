@@ -58,18 +58,16 @@
                         <span class="badge">3</span>
                     </a>
                 </li>
-                <li>
-                    <div sec:authorize="isAuthenticated()"  class="row" >
-                        <form action="/logout" th:action="@{/logout}" method="post">
-                            <input class="btn btn-outline-success " type="submit" value="退出">
-                        </form>
-                    </div>
+                <li sec:authorize="isAuthenticated()" style="margin-top: 1.5rem;">
+                    <form action="/logout" th:action="@{/logout}" method="post">
+                        <input class="btn-link" type="submit" value="退出">
+                    </form>
                 </li>
-                <li>
-                    <div sec:authorize="isAnonymous()">
-                        <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
-                        <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
-                    </div>
+                <li sec:authorize="isAnonymous()">
+                    <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
+                </li>
+                <li sec:authorize="isAnonymous()">
+                    <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
                 </li>
             </ul>
         </div>
