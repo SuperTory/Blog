@@ -52,23 +52,32 @@
             </ul>
             <!--右侧导航标签-->
             <ul class="nav navbar-nav navbar-right">
-                <li sec:authorize="isAuthenticated()" class="active">
-                    <a href="./">
+                <li sec:authorize="isAuthenticated()" class="dropdown">
+                    <a class=" dropdown-toggle" href="/u/waylau" th:href="@{'/u/' + ${#authentication.name}}"
+                       data-toggle="dropdown">
                         <span sec:authentication="name"></span>
-                        <span class="badge">3</span>
+                        <span class="caret"></span>
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{'/u/' + ${#authentication.name}}">个人主页</a></li>
+                        <li>
+                            <a th:href="@{'/u/' + ${#authentication.name} + '/profile'}">个人设置</a>
+                        </li>
+                    </ul>
                 </li>
-                <li sec:authorize="isAuthenticated()" style="margin-top: 1.5rem;">
-                    <form action="/logout" th:action="@{/logout}" method="post">
+
+                <li sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" style="margin-top: 1.2rem;">
                         <input class="btn-link" type="submit" value="退出">
                     </form>
                 </li>
                 <li sec:authorize="isAnonymous()">
-                    <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
+                    <a th:href="@{/login}" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
                 </li>
                 <li sec:authorize="isAnonymous()">
-                    <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
+                    <a th:href="@{/register}" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
                 </li>
+
             </ul>
         </div>
     </div>

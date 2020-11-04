@@ -33,6 +33,9 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
 
+	//markdown
+	compile group: 'es.nitaur.markdown', name: 'txtmark', version: '0.16'
+
 
 	implementation('org.hibernate.validator:hibernate-validator')
 	implementation('org.apache.commons:commons-lang3')		//包含StringUtil
