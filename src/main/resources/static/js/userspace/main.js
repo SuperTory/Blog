@@ -39,9 +39,10 @@ $(function () {
 
     // 提交用户头像的图片数据
     $("#submitEditAvatar").on("click", function () {
-        var form = $('#avatarformid')[0];
-        var formData = new FormData(form);   //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数
-        var base64Codes = $(".cropImg > img").attr("src");
+        const form = $('#avatarformid')[0];
+        let formData = new FormData(form);   //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数
+        const base64Codes = $("#cropImg > img").attr("src");
+        console.log(base64Codes);
         formData.append("file", convertBase64UrlToBlob(base64Codes));  //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同
 
         $.ajax({
@@ -74,7 +75,6 @@ $(function () {
                         } else {
                             toastr.error("error!" + data.message);
                         }
-
                     },
                     error: function () {
                         toastr.error("error!");
@@ -86,6 +86,4 @@ $(function () {
             }
         })
     });
-
-
 });
