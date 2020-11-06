@@ -51,11 +51,7 @@ public class UserController {
                              @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                              @RequestParam(value = "name", required = false, defaultValue = "") String name,
                              Model model) {
-
-        Sort sort = Sort.by(Sort.Order.desc("id"));
-        Pageable pageable =PageRequest.of(pageIndex,pageSize, sort);
-
-        Page<User> page = userService.listUsersByNameLike(name, pageable);
+        Page<User> page = userService.listUsersByNameLike(name, pageIndex,pageSize);
         List<User> list = page.getContent();    // 当前所在页面数据列表
 
         model.addAttribute("page", page);

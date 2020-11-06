@@ -51,9 +51,10 @@ public interface UserService {
 
 	/**
 	 * 根据用户名分页查询
-	 * @param name
-	 * @param pageable
-	 * @return
+	 * @param name	用户名
+	 * @param pageIndex 页码
+	 * @param pageSize 页面大小
+	 * @return 查询结果
 	 */
-	Page<User> listUsersByNameLike(String name, Pageable pageable);
+	Page<User> listUsersByNameLike(String name, int pageIndex,int pageSize);
 }

@@ -1,8 +1,5 @@
 /*!
  * blogedit.html 页面脚本.
- * 
- * @since: 1.0.0 2017-03-26
- * @author Way Lau <https://waylau.com>
  */
 "use strict";
 //# sourceURL=blogedit.js
@@ -60,7 +57,7 @@ $(function() {
 		var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 		
 		$.ajax({
-		    url: '/u/'+ $(this).attr("userName") + '/blogs/edit',
+		    url: '/blog/u/'+ $(this).attr("userName") + '/blogs/edit',
 		    type: 'POST',
 			contentType: "application/json; charset=utf-8",
 		    data:JSON.stringify({"id":Number($('#id').val()), 
