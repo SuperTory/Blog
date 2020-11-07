@@ -148,7 +148,7 @@ public class UserSpaceController {
             return ResponseEntity.ok().body(new Response(false, e.getMessage()));
         }
 
-        String redirectUrl = "/u/" + username + "/blogs";
+        String redirectUrl = "/blog/u/" + username + "/blogs";
         return ResponseEntity.ok().body(new Response(true, "处理成功", redirectUrl));
     }
 

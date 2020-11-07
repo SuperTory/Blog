@@ -15,7 +15,7 @@ $(function() {
 	// 根据用户名、页面索引、页面大小获取用户列表
 	function getBlogsByName(pageIndex, pageSize) {
 		 $.ajax({ 
-			 url: "/u/"+  username  +"/blogs", 
+			 url: "/blog/u/"+  username  +"/blogs",
 			 contentType : 'application/json',
 			 data:{
 				 "async":true, 
@@ -43,7 +43,7 @@ $(function() {
 		getBlogsByName(0, _pageSize);
 	});
 	
-	// 最新\最热切换事件
+	// 最新、最热切换事件
 	$(".nav-item .nav-link").click(function() {
  
 		var url = $(this).attr("url");
