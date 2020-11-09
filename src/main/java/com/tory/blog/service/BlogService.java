@@ -55,4 +55,19 @@ public interface BlogService {
 	 * @param id
 	 */
 	void readingIncrease(Long id);
+
+	/**
+	 * 新增评论
+	 * @param blogId 博客ID
+	 * @param commentString 评论内容
+	 * @return 更改后的博客
+	 */
+	Blog createComment(Long blogId, String commentString);
+
+	/**
+	 * 移除评论
+	 * @param blogId 博客ID
+	 * @param commentId 评论ID
+	 */
+	void removeComment(Long blogId, Long commentId);
 }
