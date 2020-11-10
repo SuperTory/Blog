@@ -5,9 +5,9 @@
 "use strict";
 
 $(function () {
-    const pathName = window.document.location.pathname;
-    const projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-    const blogId = pathName.substring(pathName.lastIndexOf('/')+1)
+    const blogUrl = window.document.location.pathname;
+    const projectName = blogUrl.substring(0, blogUrl.substr(1).indexOf('/') + 1);
+    const blogId = blogUrl.substring(blogUrl.lastIndexOf('/')+1)
 
     $.catalog("#catalog", ".post-content");
 
@@ -18,7 +18,7 @@ $(function () {
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
         $.ajax({
-            url: $(this).attr("blogUrl"),
+            url: blogUrl,
             type: 'DELETE',
             beforeSend: function (request) {
                 request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
@@ -51,6 +51,8 @@ $(function () {
             }
         });
     }
+
+    getCommnet(blogId);
 
     // 提交评论
     $(".blog-content-container").on("click", "#submitComment", function () {
@@ -107,6 +109,57 @@ $(function () {
         });
     });
 
-    // 初始化 博客评论
-    getCommnet(blogId);
+    // 提交点赞
+    $(".blog-content-container").on("click","#submitVote", function () {
+        // 获取 CSRF Token
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: projectName + '/votes',
+            type: 'POST',
+            data:{"blogId":blogId},
+            beforeSend: function(request) {
+                request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+            },
+            success: function(data){
+                if (data.success) {
+                    toastr.info(data.message);
+                    window.location = blogUrl;  // 成功后，重定向
+                } else {
+                    toastr.error("请先登录！");
+                }
+            },
+            error : function() {
+                toastr.error("error!");
+            }
+        });
+    });
+
+    // 取消点赞
+    $(".blog-content-container").on("click","#cancelVote", function () {
+        // 获取 CSRF Token
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: projectName + '/votes/'+$(this).attr('voteId')+'?blogId='+blogId,
+            type: 'DELETE',
+            beforeSend: function(request) {
+                request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+            },
+            success: function(data){
+                if (data.success) {
+                    toastr.info(data.message);
+                    // 成功后，重定向
+                    window.location = blogUrl;
+                } else {
+                    toastr.error(data.message);
+                }
+            },
+            error : function() {
+                toastr.error("error!");
+            }
+        });
+    });
 });

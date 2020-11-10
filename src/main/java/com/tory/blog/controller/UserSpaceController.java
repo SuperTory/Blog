@@ -2,6 +2,7 @@ package com.tory.blog.controller;
 
 import com.tory.blog.entity.Blog;
 import com.tory.blog.entity.User;
+import com.tory.blog.entity.Vote;
 import com.tory.blog.service.BlogService;
 import com.tory.blog.service.UserService;
 import com.tory.blog.util.ConstraintViolationExceptionHandler;
@@ -90,18 +91,33 @@ public class UserSpaceController {
         blogService.readingIncrease(id);
 
         boolean isBlogOwner = false;
+        User currentUser=null;
 
         // 判断操作用户是否是博客的所有者
         if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal !=null && username.equals(principal.getUsername())) {
+            currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (currentUser !=null && username.equals(currentUser.getUsername())) {
                 isBlogOwner = true;
+            }
+        }
+
+        // 判断当前用户是否已经点过赞
+        List<Vote> votes = blogService.getBlogById(id).getVotes();
+        Vote currentVote = null; // 当前用户的点赞
+
+        if (currentUser !=null) {
+            for (Vote vote : votes) {
+                if(vote.getUser().getUsername().equals(currentUser.getUsername())) {
+                    currentVote = vote;
+                    break;
+                }
             }
         }
 
         model.addAttribute("isBlogOwner", isBlogOwner);
         model.addAttribute("blogModel",blogService.getBlogById(id));
+        model.addAttribute("currentVote",currentVote);
 
         return "/userspace/blog";
     }

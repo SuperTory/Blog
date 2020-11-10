@@ -3,6 +3,7 @@ package com.tory.blog.service;
 import javax.transaction.Transactional;
 
 import com.tory.blog.entity.Comment;
+import com.tory.blog.entity.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -91,6 +92,34 @@ public class BlogServiceImpl implements BlogService {
     public void removeComment(Long blogId, Long commentId) {
         Blog originalBlog=this.getBlogById(blogId);
         originalBlog.removeComment(commentId);
+        this.saveBlog(originalBlog);
+    }
+
+    /**
+     * 点赞
+     *
+     * @param blogId 博客ID
+     * @return 更改后的博客
+     */
+    @Override
+    public Blog createVote(Long blogId) {
+        User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Vote vote=new Vote(user);
+        Blog originalBlog=this.getBlogById(blogId);
+        originalBlog.addVote(vote);
+        return this.saveBlog(originalBlog);
+    }
+
+    /**
+     * 取消点赞
+     *
+     * @param blogId 博客ID
+     * @param voteId 点赞ID
+     */
+    @Override
+    public void removeVote(Long blogId, Long voteId) {
+        Blog originalBlog=this.getBlogById(blogId);
+        originalBlog.removeVote(voteId);
         this.saveBlog(originalBlog);
     }
 }

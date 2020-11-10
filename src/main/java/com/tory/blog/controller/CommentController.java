@@ -103,12 +103,12 @@ public class CommentController {
                 isOwner = true;
             }
         }
-
         if (!isOwner) {
             return ResponseEntity.ok().body(new Response(false, "没有操作权限"));
         }
 
         try {
+            //删除评论需要单独调用commentService去删除comment表，增加评论时Blog的comments列表会自动写入comment表
             blogService.removeComment(blogId, commentId);
             commentService.removeComment(commentId);
         } catch (ConstraintViolationException e) {
