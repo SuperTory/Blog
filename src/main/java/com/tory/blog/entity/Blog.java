@@ -30,7 +30,7 @@ public class Blog implements Serializable {
 
     @Id // 主键
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
-    private Long id; // 用户的唯一标识
+    private Long id;
 
     @NotEmpty(message = "标题不能为空")
     @Size(min = 2, max = 50)
@@ -83,6 +83,10 @@ public class Blog implements Serializable {
     @JoinTable(name = "blog_vote", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "vote_id", referencedColumnName = "id"))
     private List<Vote> votes;   //博客点赞列表
+
+    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "catalog_id")
+    private Catalog catalog;    //博客分类
 
     protected Blog() {
         // TODO Auto-generated constructor stub
@@ -171,6 +175,14 @@ public class Blog implements Serializable {
         return comments;
     }
 
+    public Integer getVoteSize() {
+        return voteSize;
+    }
+
+    public void setVoteSize(Integer voteSize) {
+        this.voteSize = voteSize;
+    }
+
     public void setComments(List<Comment> comments) {
         this.comments = comments;
         this.commentSize = this.comments.size();
@@ -249,6 +261,14 @@ public class Blog implements Serializable {
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
         this.voteSize = this.votes.size();
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
     }
 
 }

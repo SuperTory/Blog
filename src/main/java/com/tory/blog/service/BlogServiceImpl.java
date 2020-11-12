@@ -2,16 +2,13 @@ package com.tory.blog.service;
 
 import javax.transaction.Transactional;
 
-import com.tory.blog.entity.Comment;
-import com.tory.blog.entity.Vote;
+import com.tory.blog.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tory.blog.entity.Blog;
-import com.tory.blog.entity.User;
 import com.tory.blog.repository.BlogRepository;
 
 
@@ -121,5 +118,16 @@ public class BlogServiceImpl implements BlogService {
         Blog originalBlog=this.getBlogById(blogId);
         originalBlog.removeVote(voteId);
         this.saveBlog(originalBlog);
+    }
+
+    /**
+     * 根据分类返回博客
+     * @param catalog 博客分类
+     * @param pageable 分页
+     * @return 博客列表
+     */
+    @Override
+    public Page<Blog> listBlogByCatalog(Catalog catalog, Pageable pageable) {
+        return blogRepository.findByCatalog(catalog,pageable);
     }
 }

@@ -1,5 +1,6 @@
 package com.tory.blog.service;
 
+import com.tory.blog.entity.Catalog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -48,7 +49,7 @@ public interface BlogService {
 	 * @param user
 	 * @return
 	 */
-	Page<Blog> listBlogsByTitleLikeAndSort(User suser, String title, Pageable pageable);
+	Page<Blog> listBlogsByTitleLikeAndSort(User user, String title, Pageable pageable);
 	
 	/**
 	 * 阅读量递增
@@ -84,4 +85,12 @@ public interface BlogService {
 	 * @param voteId 点赞ID
 	 */
 	void removeVote(Long blogId, Long voteId);
+
+	/**
+	 * 根据分类返回博客
+	 * @param catalog 博客分类
+	 * @param pageable 分页
+	 * @return 博客列表
+	 */
+	Page<Blog> listBlogByCatalog(Catalog catalog, Pageable pageable);
 }

@@ -1,9 +1,6 @@
 package com.tory.blog.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,30 +11,35 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 
 /**
- * 点赞 实体
+ * Catalog 文章分类实体
  */
-@Entity
-public class Vote implements Serializable {
+@Entity // 实体
+public class Catalog implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id // 主键
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增长策略
-    private Long id;
+    private Long id; // 用户的唯一标识
+
+    @NotEmpty(message = "名称不能为空")
+    @Size(min = 2, max = 30)
+    @Column(nullable = false) // 映射为字段，值不能为空
+    private String name;
 
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false) // 映射为字段，值不能为空
-    @CreationTimestamp  // 由数据库自动创建时间
-    private Timestamp createTime;
-
-    protected Vote() {
+    protected Catalog() {
     }
 
-    public Vote(User user) {
+    public Catalog(User user, String name) {
+        this.name = name;
         this.user = user;
     }
 
@@ -57,8 +59,13 @@ public class Vote implements Serializable {
         this.user = user;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
 }
