@@ -16,11 +16,26 @@ import com.tory.blog.repository.BlogRepository;
 public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
+    @Autowired
+    private EsBlogService esBlogService;
 
     @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
-        return blogRepository.save(blog);
+        boolean isNew = (blog.getId() == null);
+        EsBlog esBlog = null;
+
+        Blog returnBlog = blogRepository.save(blog);
+
+        if (isNew) {
+            esBlog = new EsBlog(returnBlog);
+        } else {
+            esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+            esBlog.update(returnBlog);
+        }
+
+        esBlogService.updateEsBlog(esBlog);
+        return returnBlog;
     }
 
     @Transactional

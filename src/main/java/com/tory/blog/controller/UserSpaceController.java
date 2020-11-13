@@ -176,7 +176,7 @@ public class UserSpaceController {
                 orignalBlog.setContent(blog.getContent());
                 orignalBlog.setSummary(blog.getSummary());
                 orignalBlog.setCatalog(blog.getCatalog());
-//                orignalBlog.setTags(blog.getTags());
+                orignalBlog.setTags(blog.getTags());
                 blogService.saveBlog(orignalBlog);
             } else {                    //新增博客
                 User user = (User)userDetailsService.loadUserByUsername(username);
