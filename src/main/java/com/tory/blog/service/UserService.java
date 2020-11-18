@@ -1,5 +1,6 @@
 package com.tory.blog.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -57,4 +58,6 @@ public interface UserService {
 	 * @return 查询结果
 	 */
 	Page<User> listUsersByNameLike(String name, int pageIndex,int pageSize);
+
+	List<User> listUsersByUsernames(Collection<String> usernames);
 }

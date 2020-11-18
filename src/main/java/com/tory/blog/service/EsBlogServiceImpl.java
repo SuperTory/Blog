@@ -69,9 +69,7 @@ public class EsBlogServiceImpl implements EsBlogService {
         return pages;
     }
 
-    /* (non-Javadoc)
-     * @see com.waylau.spring.boot.blog.service.EsBlogService#listHotestEsBlogs(java.lang.String, org.springframework.data.domain.Pageable)
-     */
+
     @Override
     public Page<EsBlog> listHotestEsBlogs(String keyword, Pageable pageable) throws SearchParseException {
 

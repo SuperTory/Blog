@@ -32,24 +32,23 @@
             </button>
             <a class="navbar-brand" href="#">My Blog</a>
         </div>
+
         <!--左侧导航标签-->
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 0.8px;">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">首页</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blog/blogs?order=new'" >最新 <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" th:attr="url='/blog/blogs?order=hot'">最热</a>
+                </li>
+                <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="搜索" id="indexkeyword" th:value="${keyword}">
+                    <a href="javascript:void(0)" class="btn btn-outline-secondary my-2 my-sm-0" id="indexsearch"><i class="fa fa-search"
+                                                                                                                    aria-hidden="true"></i></a>
+                </form>
             </ul>
+
             <!--右侧导航标签-->
             <ul class="nav navbar-nav navbar-right">
                 <li sec:authorize="isAuthenticated()" class="dropdown">
